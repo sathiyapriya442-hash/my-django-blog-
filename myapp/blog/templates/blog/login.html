@@ -1,0 +1,56 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 420px; border-radius: 1rem;">
+        <h3 class="text-center mb-4 fw-bold">Login</h3>
+
+        <!-- ✅ Non-field errors -->
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    <div>{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- ✅ Login Form -->
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <div class="mb-3">
+                <label for="username" class="form-label fw-semibold">Username</label>
+                <input type="text" class="form-control" id="username" name="username"
+                       value="{{ form.username.value|default:'' }}">
+                {% if form.username.errors %}
+                    <div class="text-danger mt-1">
+                        {% for error in form.username.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label fw-semibold">Password</label>
+                <input type="password" class="form-control" id="password" name="password">
+                {% if form.password.errors %}
+                    <div class="text-danger mt-1">
+                        {% for error in form.password.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="{% url 'blog:forgot_password' %}" class="text-decoration-none">Forgot Password?</a>
+                <button type="submit" class="btn btn-primary px-4">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
